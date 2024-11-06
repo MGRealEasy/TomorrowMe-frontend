@@ -14,6 +14,7 @@ export const useTelegramUser = (): TelegramUser | null => {
 	const [user, setUser] = useState<TelegramUser | null>(null)
 
 	useEffect(() => {
+        
 		const tg = (window as any).Telegram?.WebApp || 1148831907
 		if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
 			setUser(tg.initDataUnsafe.user)
