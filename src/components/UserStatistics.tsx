@@ -66,7 +66,16 @@ const UserStatistics: React.FC = () => {
 								Tasks Pending
 							</th>
 							<th className="border-b-2 border-gray-600 pb-2">
-								Habits
+								Habits Followed
+							</th>
+							<th className="border-b-2 border-gray-600 pb-2">
+								Goals Active
+							</th>
+							<th className="border-b-2 border-gray-600 pb-2">
+								Goals Completed
+							</th>
+							<th className="border-b-2 border-gray-600 pb-2">
+								Goals Total
 							</th>
 							<th className="border-b-2 border-gray-600 pb-2">
 								Productivity
@@ -82,8 +91,11 @@ const UserStatistics: React.FC = () => {
 								<td className="py-2">{stat.tasks_completed}</td>
 								<td className="py-2">{stat.tasks_pending}</td>
 								<td className="py-2">{stat.habits_followed}</td>
+								<td className="py-2">{stat.goals_active}</td>
+								<td className="py-2">{stat.goals_completed}</td>
+								<td className="py-2">{stat.goals_total}</td>
 								<td className="py-2">
-									{stat.productivity_score}
+									{stat.productivity_score.toFixed(2)}
 								</td>
 							</tr>
 						))}

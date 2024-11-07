@@ -53,6 +53,8 @@ export const updateUser = async (
 	}
 }
 
+// src/api/user.ts
+
 export interface UserStatistic {
 	statistics_id: number
 	user_id: number
@@ -61,6 +63,9 @@ export interface UserStatistic {
 	tasks_pending: number
 	habits_followed: number
 	productivity_score: number
+	goals_active: number // Add this
+	goals_completed: number // Add this
+	goals_total: number // Add this
 	notes?: string
 	custom_field?: string
 	created_at?: string
