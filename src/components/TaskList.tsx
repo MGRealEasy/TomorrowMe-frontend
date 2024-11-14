@@ -15,6 +15,7 @@ const TaskList: React.FC = () => {
 	const [newTaskDescription, setNewTaskDescription] = useState('')
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [error, setError] = useState<string | null>(null)
+	const [showCompletedTasks, setShowCompletedTasks] = useState(false)
 
 	// Get tguser_id from Telegram WebApp
 	const tgUser = useTelegramUser()
@@ -115,11 +116,15 @@ const TaskList: React.FC = () => {
 		return <div className="text-white">{error}</div>
 	}
 
+	const completedTasks = tasks.filter(task => task.is_completed)
+	const incompleteTasks = tasks.filter(task => !task.is_completed)
+
 	return (
 		<div className="bg-black min-h-screen text-white p-4">
 			<h2 className="text-2xl font-bold mb-4">My Tasks</h2>
+
 			<ul className="space-y-4">
-				{tasks.map(task => (
+				{incompleteTasks.map(task => (
 					<li
 						key={task.task_id}
 						className="flex items-center space-x-4"
@@ -160,6 +165,44 @@ const TaskList: React.FC = () => {
 					</li>
 				))}
 			</ul>
+
+			<div className="mt-4">
+				<button
+					onClick={() => setShowCompletedTasks(!showCompletedTasks)}
+					className="bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-800"
+				>
+					{showCompletedTasks ? 'Hide' : 'Show'} Completed Tasks
+				</button>
+
+				{showCompletedTasks && (
+					<ul className="space-y-4 mt-4">
+						{completedTasks.map(task => (
+							<li
+								key={task.task_id}
+								className="flex items-center space-x-4"
+							>
+								<input
+									type="checkbox"
+									checked={task.is_completed}
+									onChange={() => handleToggleComplete(task)}
+									className="mr-2"
+								/>
+								<span className="flex-1 line-through">
+									{task.task_description}
+								</span>
+								<button
+									onClick={() =>
+										handleDeleteTask(task.task_id)
+									}
+									className="text-red-500 hover:text-red-700"
+								>
+									Delete
+								</button>
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
 
 			<div className="mt-8">
 				<h3 className="text-xl font-semibold mb-2">
