@@ -44,6 +44,7 @@ const Navbar: React.FC = () => {
 		{ id: 2, text: 'Goals', path: '/goals' },
 		{ id: 3, text: 'Habits', path: '/habits' },
 		{ id: 4, text: 'Profile', path: '/profile' },
+		{ id: 5, text: 'Notification', path: '/notification' },
 	]
 
 	return (
