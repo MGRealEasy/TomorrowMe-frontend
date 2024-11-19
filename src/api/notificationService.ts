@@ -49,19 +49,35 @@ export const createNotificationSetting = async (
 	notificationData: NotificationSettingData
 ): Promise<NotificationSetting> => {
 	try {
-		if (
-			!notificationData.item_type ||
-			!notificationData.reminder_type ||
-			!notificationData.reminder_times
-		) {
+		if (!notificationData.item_type || !notificationData.reminder_times) {
 			throw new Error(
 				'item_type, reminder_type и reminder_times обязательны.'
 			)
 		}
 
+		// Преобразование reminder_times в массив, если это строка
+		let reminderTimesFormatted
+
+		if (typeof notificationData.reminder_times === 'string') {
+			// Если это одиночная строка, преобразуем в массив
+			reminderTimesFormatted = [notificationData.reminder_times]
+		} else if (Array.isArray(notificationData.reminder_times)) {
+			// Если это уже массив, оставляем как есть
+			reminderTimesFormatted = notificationData.reminder_times
+		} else {
+			// Если это другой тип, выбрасываем ошибку
+			throw new Error('Invalid format for reminder_times.')
+		}
+
+		// Преобразуем в JSON
+		const formattedData = {
+			...notificationData,
+			reminder_times: JSON.stringify(reminderTimesFormatted),
+		}
+
 		const response = await api.post<NotificationSetting>(
 			'/notifications',
-			notificationData,
+			formattedData,
 			{
 				params: { tguser_id },
 			}

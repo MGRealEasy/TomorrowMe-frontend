@@ -43,30 +43,24 @@ const NotificationSettingForm: React.FC<NotificationSettingFormProps> = ({
 			<div className="mb-4">
 				<label className="block text-gray-200 mb-2">
 					Тип элемента:
-					<input
-						type="text"
+					<select
 						name="item_type"
 						value={formData.item_type}
 						onChange={handleChange}
 						required
 						className="w-full p-2 mt-1 bg-gray-700 text-white rounded"
-					/>
+					>
+						<option value="" disabled>
+							Выберите тип элемента
+						</option>
+						<option value="schedule">Schedule</option>
+						<option value="task">Task</option>
+					</select>
 				</label>
 			</div>
+
 			{/* Добавьте дополнительные поля при необходимости */}
-			<div className="mb-4">
-				<label className="block text-gray-200 mb-2">
-					Тип напоминания:
-					<input
-						type="text"
-						name="reminder_type"
-						value={formData.reminder_type}
-						onChange={handleChange}
-						required
-						className="w-full p-2 mt-1 bg-gray-700 text-white rounded"
-					/>
-				</label>
-			</div>
+
 			<div className="mb-4">
 				<label className="block text-gray-200 mb-2">
 					Время напоминаний:

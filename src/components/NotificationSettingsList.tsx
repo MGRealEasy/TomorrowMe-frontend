@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
 	NotificationSetting,
 	NotificationSettingData,
 } from '../api/notificationService'
+import UpdateModal from './UpdateModal'
 
 interface NotificationSettingsListProps {
 	settings: NotificationSetting[]
@@ -18,6 +19,29 @@ const NotificationSettingsList: React.FC<NotificationSettingsListProps> = ({
 	onUpdate,
 	onDelete,
 }) => {
+	const [isModalOpen, setModalOpen] = useState(false)
+	const [currentSetting, setCurrentSetting] =
+		useState<NotificationSetting | null>(null)
+
+	const handleUpdateClick = (setting: NotificationSetting) => {
+		setCurrentSetting(setting)
+		setModalOpen(true)
+	}
+
+	const handleModalClose = () => {
+		setModalOpen(false)
+		setCurrentSetting(null)
+	}
+
+	const handleSaveChanges = (
+		updatedData: Partial<NotificationSettingData>
+	) => {
+		if (currentSetting) {
+			onUpdate(currentSetting.setting_id, updatedData)
+			handleModalClose()
+		}
+	}
+
 	return (
 		<div>
 			{settings.length === 0 ? (
@@ -47,11 +71,7 @@ const NotificationSettingsList: React.FC<NotificationSettingsListProps> = ({
 							</div>
 							<div className="flex space-x-2">
 								<button
-									onClick={() =>
-										onUpdate(setting.setting_id, {
-											// Здесь можно открыть модальное окно для ввода новых данных
-										})
-									}
+									onClick={() => handleUpdateClick(setting)}
 									className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-3 rounded"
 								>
 									Обновить
@@ -66,6 +86,15 @@ const NotificationSettingsList: React.FC<NotificationSettingsListProps> = ({
 						</li>
 					))}
 				</ul>
+			)}
+
+			{/* Модальное окно */}
+			{isModalOpen && currentSetting && (
+				<UpdateModal
+					setting={currentSetting}
+					onClose={handleModalClose}
+					onSave={handleSaveChanges}
+				/>
 			)}
 		</div>
 	)
